@@ -51,7 +51,7 @@ export default function HomePage() {
     }
   }, []);
 
-  // Initial Sync from Localhost on mount
+  // Initial Sync on mount
   useEffect(() => {
     let isMounted = true;
     fetch('/api/triage')
@@ -98,7 +98,6 @@ export default function HomePage() {
         throw new Error(data.error || 'Failed to decrypt file');
       }
 
-      // Calculate triage with the uploaded profile
       const triageRes = await fetch('/api/triage', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -112,7 +111,7 @@ export default function HomePage() {
         setStats(triageData.triage.stats);
         setSyncSource('upload');
       } else {
-        throw new Error(triageData.error || 'Failed to triage inventory');
+        throw new Error(triageData.error || 'Failed to process inventory');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error uploading file');
@@ -137,22 +136,18 @@ export default function HomePage() {
   const filteredItems = useMemo(() => {
     return allTriaged
       .filter((t) => {
-        // Category filter
         if (activeCategory !== 'All' && t.item.category !== activeCategory) {
           return false;
         }
 
-        // Hide Founder items
         if (hideFounder && t.item.isFounder) {
           return false;
         }
 
-        // Hide Vaulted
         if (hideVaulted && t.item.isVaulted) {
           return false;
         }
 
-        // Search query
         if (searchQuery.trim()) {
           const q = searchQuery.toLowerCase();
           const matchesName = t.item.name.toLowerCase().includes(q);
@@ -164,7 +159,6 @@ export default function HomePage() {
           }
         }
 
-        // Tier Filter
         if (activeTierFilter === 'all_unmastered') {
           return !t.isMastered;
         }
@@ -174,13 +168,11 @@ export default function HomePage() {
         if (activeTierFilter === 'all') {
           return true;
         }
-        // Specific Tier (0, 1, 2, 3, 4, 5)
         return !t.isMastered && t.tier === activeTierFilter;
       })
       .sort((a, b) => {
         switch (sortOption) {
           case 'easiest':
-            // Sort by tier ascending, then completion percent descending
             if (a.tier !== b.tier) return a.tier - b.tier;
             return b.completionPercent - a.completionPercent;
           case 'completion':
@@ -202,8 +194,8 @@ export default function HomePage() {
     : 0;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#08090c] text-white selection:bg-[#1bc866]/30 selection:text-[#1bc866]">
-      {/* Framna Editorial Navigation Bar */}
+    <div className="min-h-screen flex flex-col bg-[#050608] text-white selection:bg-[#ff4040]/30 selection:text-[#ff4040]">
+      {/* Tactical Navigation Bar */}
       <Header
         profile={profile}
         isLoading={isLoading}
@@ -216,7 +208,7 @@ export default function HomePage() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-7">
         {/* Error Banner */}
         {error && (
-          <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs flex items-center justify-between">
+          <div className="p-4 rounded bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <span>⚠️</span>
               <span>{error}</span>
@@ -230,69 +222,69 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Overview Stats Hero (Framna Editorial Display) */}
+        {/* Overview Stats Hero (TBHX Tournament Overview) */}
         {stats && profile && (
-          <div className="framna-card p-6 sm:p-8 rounded-3xl relative overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            {/* Subtle glow accent */}
-            <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-[#1bc866]/[0.08] blur-3xl pointer-events-none" />
+          <div className="tbhx-card p-6 sm:p-8 rounded-xl relative overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            {/* Subtle crimson glow accent */}
+            <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-[#ff4040]/[0.06] blur-3xl pointer-events-none" />
 
             <div className="space-y-3 z-10 max-w-2xl">
               <div className="flex items-center space-x-3">
-                <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#1bc866]/15 text-[#1bc866] border border-[#1bc866]/30 shadow-[0_0_12px_rgba(27,200,102,0.2)]">
-                  {profile.masteryRank >= 30 ? `Legendary ${profile.masteryRank - 30}` : `Mastery ${profile.masteryRank}`}
+                <span className="tbhx-badge bg-[#ff4040]/15 text-[#ff4040] border border-[#ff4040]/30">
+                  <span>{profile.masteryRank >= 30 ? `LEGENDARY ${profile.masteryRank - 30}` : `RANK No. ${profile.masteryRank < 10 ? '0' : ''}${profile.masteryRank}`}</span>
                 </span>
-                <span className="text-xs text-white/40 uppercase tracking-widest font-semibold">
-                  Triage Status
+                <span className="text-xs font-oswald text-white/50 uppercase tracking-widest font-semibold">
+                  ARSENAL READINESS
                 </span>
               </div>
 
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white tracking-tight leading-[1.08]">
-                {stats.unmasteredCount} items remaining to max mastery.
+              <h2 className="font-oswald text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-wide uppercase leading-[1.08]">
+                {stats.unmasteredCount} items remaining to max mastery
               </h2>
 
-              <p className="text-xs sm:text-sm text-white/55 leading-relaxed">
-                You have mastered <span className="text-white font-medium">{stats.masteredCount}</span> out of <span className="text-white font-medium">{stats.totalCatalogItems}</span> catalog equipment pieces ({completionRate}% completed). Prioritized by ease of acquisition and component readiness.
+              <p className="text-xs sm:text-sm text-white/60 leading-relaxed font-sans">
+                You have mastered <span className="text-white font-semibold">{stats.masteredCount}</span> out of <span className="text-white font-semibold">{stats.totalCatalogItems}</span> catalog equipment items ({completionRate}% completed). Sorted by immediate Foundry readiness and component counts.
               </p>
             </div>
 
-            {/* Quick Readiness Triage Metrics in Fraunces Serif */}
+            {/* Quick Readiness Metrics */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 shrink-0 z-10">
-              {/* Claim Ready */}
-              <div className="px-4 py-3 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-[#1bc866]/35 transition-colors text-center min-w-[95px]">
-                <div className="font-serif text-2xl sm:text-3xl text-[#1bc866] font-normal leading-none tabular-nums">
+              {/* Ready in Foundry */}
+              <div className="px-4 py-3 rounded bg-black/40 border border-white/[0.09] hover:border-[#ff4040]/50 transition-colors text-center min-w-[95px]">
+                <div className="font-oswald text-2xl sm:text-3xl text-[#ff4040] font-bold leading-none tabular-nums">
                   {stats.tierCounts[0]}
                 </div>
-                <div className="text-[10px] uppercase tracking-wider text-white/50 font-medium mt-1.5">
-                  Claim Ready
+                <div className="text-[10px] font-oswald uppercase tracking-wider text-white/50 font-medium mt-1.5">
+                  In Foundry
                 </div>
               </div>
 
-              {/* 100% Craftable */}
-              <div className="px-4 py-3 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-sky-400/35 transition-colors text-center min-w-[95px]">
-                <div className="font-serif text-2xl sm:text-3xl text-sky-400 font-normal leading-none tabular-nums">
+              {/* Ready to Build */}
+              <div className="px-4 py-3 rounded bg-black/40 border border-white/[0.09] hover:border-[#00fa9a]/50 transition-colors text-center min-w-[95px]">
+                <div className="font-oswald text-2xl sm:text-3xl text-[#00fa9a] font-bold leading-none tabular-nums">
                   {stats.tierCounts[1]}
                 </div>
-                <div className="text-[10px] uppercase tracking-wider text-white/50 font-medium mt-1.5">
-                  Craftable
+                <div className="text-[10px] font-oswald uppercase tracking-wider text-white/50 font-medium mt-1.5">
+                  Ready to Build
                 </div>
               </div>
 
-              {/* Dojo / Market BP */}
-              <div className="px-4 py-3 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-indigo-400/35 transition-colors text-center min-w-[95px]">
-                <div className="font-serif text-2xl sm:text-3xl text-indigo-400 font-normal leading-none tabular-nums">
+              {/* Market / Dojo BP */}
+              <div className="px-4 py-3 rounded bg-black/40 border border-white/[0.09] hover:border-[#fcc800]/50 transition-colors text-center min-w-[95px]">
+                <div className="font-oswald text-2xl sm:text-3xl text-[#fcc800] font-bold leading-none tabular-nums">
                   {stats.tierCounts[2]}
                 </div>
-                <div className="text-[10px] uppercase tracking-wider text-white/50 font-medium mt-1.5">
-                  Dojo / Market
+                <div className="text-[10px] font-oswald uppercase tracking-wider text-white/50 font-medium mt-1.5">
+                  Dojo / Market BP
                 </div>
               </div>
 
-              {/* Near Complete */}
-              <div className="px-4 py-3 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-amber-400/35 transition-colors text-center min-w-[95px]">
-                <div className="font-serif text-2xl sm:text-3xl text-amber-400 font-normal leading-none tabular-nums">
+              {/* 1-2 Parts Needed */}
+              <div className="px-4 py-3 rounded bg-black/40 border border-white/[0.09] hover:border-[#ff9933]/50 transition-colors text-center min-w-[95px]">
+                <div className="font-oswald text-2xl sm:text-3xl text-[#ff9933] font-bold leading-none tabular-nums">
                   {stats.tierCounts[3]}
                 </div>
-                <div className="text-[10px] uppercase tracking-wider text-white/50 font-medium mt-1.5">
+                <div className="text-[10px] font-oswald uppercase tracking-wider text-white/50 font-medium mt-1.5">
                   Near Complete
                 </div>
               </div>
@@ -300,14 +292,14 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Category Navigation Pills */}
+        {/* Category Navigation Tabs */}
         <CategoryNav
           activeCategory={activeCategory}
           onSelectCategory={setActiveCategory}
           categoryCounts={categoryCounts}
         />
 
-        {/* Multi-Faceted Filter & Sort Control Bar */}
+        {/* Tactical Filter & Sort Control Bar */}
         <FilterBar
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
@@ -328,8 +320,8 @@ export default function HomePage() {
         <div className="min-h-[400px]">
           {isLoading ? (
             <div className="h-64 flex flex-col items-center justify-center space-y-3">
-              <div className="w-8 h-8 rounded-full border-2 border-[#1bc866] border-t-transparent animate-spin" />
-              <p className="text-xs text-white/50">Reading AlecaFrame inventory & calculating triage...</p>
+              <div className="w-8 h-8 rounded-full border-2 border-[#ff4040] border-t-transparent animate-spin" />
+              <p className="text-xs font-mono text-white/50">Reading AlecaFrame inventory & checking readiness...</p>
             </div>
           ) : filteredItems.length > 0 ? (
             <motion.div
@@ -347,9 +339,9 @@ export default function HomePage() {
               </AnimatePresence>
             </motion.div>
           ) : (
-            <div className="h-64 framna-card rounded-3xl flex flex-col items-center justify-center p-6 text-center space-y-2.5">
+            <div className="h-64 tbhx-card rounded-xl flex flex-col items-center justify-center p-6 text-center space-y-2.5">
               <span className="text-2xl">🔍</span>
-              <h3 className="text-sm font-semibold text-white">No items found</h3>
+              <h3 className="text-sm font-oswald font-semibold tracking-wider uppercase text-white">No items found</h3>
               <p className="text-xs text-white/50 max-w-sm">
                 Try loosening your filters, toggling Vaulted items, or searching for a different keyword.
               </p>
@@ -359,16 +351,16 @@ export default function HomePage() {
                   setActiveTierFilter('all_unmastered');
                   setActiveCategory('All');
                 }}
-                className="mt-2 px-4 h-9 rounded-full bg-white text-[#08090c] hover:bg-white/90 text-xs font-semibold transition-all cursor-pointer"
+                className="mt-2 tbhx-btn-crimson px-4 h-8 rounded text-xs cursor-pointer"
               >
-                Reset All Filters
+                RESET ALL FILTERS
               </button>
             </div>
           )}
         </div>
       </main>
 
-      {/* Sliding Recipe Inspector Drawer */}
+      {/* Sliding Blueprint Drawer */}
       <RecipeDrawer
         key={selectedItem?.item.id}
         triaged={selectedItem}

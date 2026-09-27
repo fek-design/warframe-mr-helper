@@ -28,38 +28,46 @@ export function Header({
     }
   };
 
-  const mrTitle = profile
+  const formattedRank = profile
+    ? profile.masteryRank < 10
+      ? `0${profile.masteryRank}`
+      : `${profile.masteryRank}`
+    : '--';
+
+  const rankTitle = profile
     ? profile.masteryRank >= 30
-      ? `Legendary ${profile.masteryRank - 30}`
-      : `Mastery ${profile.masteryRank}`
-    : 'Connecting...';
+      ? `LEGENDARY ${profile.masteryRank - 30}`
+      : `MASTERY ${profile.masteryRank}`
+    : 'CONNECTING';
 
   return (
-    <header className="sticky top-0 z-30 w-full bg-[#08090c]/90 backdrop-blur-xl border-b border-white/[0.08]">
+    <header className="sticky top-0 z-30 w-full bg-[#050608]/95 backdrop-blur-xl border-b border-white/[0.09]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
-        {/* Left: Framna Circular Monogram & Title */}
+        {/* Left: Tactical Logo & Title */}
         <div className="flex items-center space-x-3.5">
-          <div className="w-9 h-9 rounded-full bg-white/[0.06] border border-white/[0.12] flex items-center justify-center shrink-0 shadow-sm">
-            <span className="text-white font-bold text-xs tracking-wider">WF</span>
+          <div className="w-9 h-9 rounded bg-[#ff4040]/10 border border-[#ff4040]/40 flex items-center justify-center shrink-0 shadow-[0_0_12px_rgba(255,64,64,0.15)] tbhx-skew">
+            <span className="text-[#ff4040] font-oswald text-xs font-bold tracking-wider tbhx-unskew">
+              WF
+            </span>
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h1 className="font-semibold text-sm tracking-tight text-white">
-                Warframe MR Triage
+              <h1 className="font-oswald text-sm font-semibold tracking-wider text-white">
+                WARFRAME MR TRACKER
               </h1>
-              <span className="px-2 py-0.5 text-[9px] font-medium tracking-wide uppercase rounded-full bg-white/[0.06] text-white/60 border border-white/[0.08]">
-                Framna
+              <span className="tbhx-badge bg-[#ff4040]/15 text-[#ff4040] border border-[#ff4040]/30">
+                <span>HUD v2</span>
               </span>
             </div>
-            <p className="text-[11px] text-white/45 flex items-center space-x-1.5">
+            <p className="text-[11px] text-white/50 flex items-center space-x-1.5 mt-0.5">
               <span
                 className={`inline-block w-1.5 h-1.5 rounded-full ${
                   profile
-                    ? 'bg-[#1bc866] shadow-[0_0_8px_rgba(27,200,102,0.8)]'
+                    ? 'bg-[#00fa9a] shadow-[0_0_6px_rgba(0,250,154,0.8)]'
                     : 'bg-amber-400'
                 }`}
               />
-              <span>
+              <span className="font-mono text-[10px] uppercase tracking-wider">
                 {profile
                   ? `Live AlecaFrame (${syncSource === 'local' ? 'Localhost' : 'File Sync'})`
                   : 'Awaiting AlecaFrame sync'}
@@ -68,24 +76,28 @@ export function Header({
           </div>
         </div>
 
-        {/* Center: Framna Player Metrics Pill */}
+        {/* Center: Tactical Player Metrics */}
         {profile && (
-          <div className="hidden md:flex items-center space-x-5 px-4 h-9 rounded-full bg-white/[0.03] border border-white/[0.08]">
-            {/* MR Rank Badge */}
+          <div className="hidden md:flex items-center space-x-5 px-4 h-9 rounded bg-[#0e1017] border border-white/[0.09]">
+            {/* Rank Callout */}
             <div className="flex items-center space-x-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#1bc866] shadow-[0_0_6px_rgba(27,200,102,0.8)]" />
-              <span className="text-[11px] font-medium text-white/50">Rank:</span>
-              <span className="text-xs font-semibold text-white tracking-wide">
-                {mrTitle} <span className="text-white/40 font-normal">(MR {profile.masteryRank})</span>
+              <span className="text-[10px] font-oswald text-[#ff4040] tracking-wider">
+                RANK No.
+              </span>
+              <span className="font-oswald text-xs font-semibold text-white tracking-widest">
+                {formattedRank}
+              </span>
+              <span className="text-[10px] text-white/40 uppercase">
+                ({rankTitle})
               </span>
             </div>
 
             <div className="w-px h-3.5 bg-white/10" />
 
             {/* Credits */}
-            <div className="flex items-center space-x-1.5">
+            <div className="flex items-center space-x-1.5 font-mono text-xs">
               <span className="text-[10px] text-white/40 font-semibold tracking-wider">CR</span>
-              <span className="text-xs tabular-nums font-medium text-white/90">
+              <span className="tabular-nums text-white/90">
                 {profile.credits.toLocaleString()}
               </span>
             </div>
@@ -93,16 +105,16 @@ export function Header({
             <div className="w-px h-3.5 bg-white/10" />
 
             {/* Platinum */}
-            <div className="flex items-center space-x-1.5">
-              <span className="text-[10px] text-[#1bc866] font-semibold tracking-wider">PL</span>
-              <span className="text-xs tabular-nums font-semibold text-white">
+            <div className="flex items-center space-x-1.5 font-mono text-xs">
+              <span className="text-[10px] text-[#00fa9a] font-semibold tracking-wider">PL</span>
+              <span className="tabular-nums font-semibold text-white">
                 {profile.platinum.toLocaleString()}
               </span>
             </div>
           </div>
         )}
 
-        {/* Right: Framna 40px Pill Controls */}
+        {/* Right: Tactical Action Controls */}
         <div className="flex items-center space-x-2.5">
           <input
             type="file"
@@ -112,32 +124,26 @@ export function Header({
             className="hidden"
           />
 
-          <motion.button
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+          <button
             onClick={() => fileInputRef.current?.click()}
-            className="hidden sm:inline-flex items-center px-4 h-10 text-xs font-medium rounded-full text-white/70 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] transition-colors focus-visible:ring-2 focus-visible:ring-[#1bc866]/60 focus-visible:outline-none"
+            className="hidden sm:inline-flex items-center px-3.5 h-9 text-xs font-oswald tracking-wider rounded bg-[#0e1017] hover:bg-[#151822] text-white/70 hover:text-white border border-white/[0.12] transition-colors focus-visible:ring-2 focus-visible:ring-[#ff4040]/60 focus-visible:outline-none cursor-pointer"
             title="Import lastData.dat file manually"
           >
-            Upload File
-          </motion.button>
+            UPLOAD FILE
+          </button>
 
-          <motion.button
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+          <button
             onClick={onRefreshLocal}
             disabled={isLoading}
-            className="inline-flex items-center space-x-2 px-4.5 h-10 text-xs font-semibold rounded-full bg-[#1bc866] hover:bg-[#21db73] text-[#041208] shadow-[0_2px_16px_rgba(27,200,102,0.35)] transition-all disabled:opacity-50 select-none cursor-pointer focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:outline-none"
+            className="tbhx-btn-crimson inline-flex items-center space-x-2 px-4 h-9 text-xs rounded border border-[#ff4040]/50 disabled:opacity-50 select-none cursor-pointer focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
           >
             <span
-              className={`w-2 h-2 rounded-full bg-[#041208] ${
+              className={`w-1.5 h-1.5 rounded-full bg-white ${
                 isLoading ? 'animate-ping' : ''
               }`}
             />
-            <span>{isLoading ? 'Syncing...' : 'Sync AlecaFrame'}</span>
-          </motion.button>
+            <span>{isLoading ? 'SYNCING...' : 'SYNC INVENTORY'}</span>
+          </button>
         </div>
       </div>
     </header>

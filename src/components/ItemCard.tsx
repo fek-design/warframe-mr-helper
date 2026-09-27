@@ -10,29 +10,38 @@ interface ItemCardProps {
 }
 
 export function ItemCard({ triaged, onSelect }: ItemCardProps) {
-  const { item, tierLabel, tierColor, completionPercent, actionDirective, isMastered } = triaged;
+  const { item, tier, tierLabel, completionPercent, actionDirective, isMastered } = triaged;
   const [imgError, setImgError] = useState(false);
 
-  // Framna high-contrast tier badge styles
-  const tierBadgeStyles: Record<string, string> = {
-    emerald: 'bg-[#1bc866]/15 border-[#1bc866]/35 text-[#1bc866] shadow-[0_0_12px_rgba(27,200,102,0.18)]',
-    sky: 'bg-sky-500/15 border-sky-400/35 text-sky-300 shadow-[0_0_12px_rgba(14,165,233,0.18)]',
-    indigo: 'bg-indigo-500/15 border-indigo-400/35 text-indigo-300 shadow-[0_0_12px_rgba(99,102,241,0.18)]',
-    amber: 'bg-amber-500/15 border-amber-400/35 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.18)]',
-    rose: 'bg-rose-500/15 border-rose-400/35 text-rose-300 shadow-[0_0_12px_rgba(244,63,94,0.18)]',
-    zinc: 'bg-zinc-500/20 border-zinc-500/35 text-zinc-300',
+  // TBHX Hero Tier Badges
+  const getTierBadge = () => {
+    switch (tier) {
+      case 0:
+        return 'bg-[#ff4040]/15 border-[#ff4040]/40 text-[#ff4040]';
+      case 1:
+        return 'bg-[#00fa9a]/15 border-[#00fa9a]/40 text-[#00fa9a]';
+      case 2:
+        return 'bg-[#fcc800]/15 border-[#fcc800]/40 text-[#fcc800]';
+      case 3:
+        return 'bg-[#ff9933]/15 border-[#ff9933]/40 text-[#ff9933]';
+      case 4:
+        return 'bg-[#a855f7]/15 border-[#a855f7]/40 text-[#a855f7]';
+      case 5:
+      default:
+        return 'bg-zinc-700/20 border-zinc-600/35 text-zinc-300';
+    }
   };
 
-  const badgeClass = tierBadgeStyles[tierColor] || tierBadgeStyles.zinc;
+  const badgeClass = getTierBadge();
 
   return (
     <motion.div
       layout
-      whileHover={{ y: -3, scale: 1.015 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.99 }}
+      transition={{ duration: 0.18, ease: 'easeOut' }}
       onClick={() => onSelect(triaged)}
-      className="framna-card p-5 flex flex-col justify-between cursor-pointer select-none group relative overflow-hidden"
+      className="tbhx-card p-4.5 flex flex-col justify-between cursor-pointer select-none group relative overflow-hidden"
     >
       {/* Top subtle highlight */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
@@ -40,9 +49,9 @@ export function ItemCard({ triaged, onSelect }: ItemCardProps) {
       {/* Header Info */}
       <div>
         <div className="flex items-start justify-between gap-3 mb-2.5">
-          <div className="flex items-center space-x-3.5">
+          <div className="flex items-center space-x-3">
             {/* Thumbnail */}
-            <div className="w-13 h-13 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center p-1.5 overflow-hidden shrink-0 group-hover:border-white/20 transition-colors">
+            <div className="w-12 h-12 rounded bg-black/40 border border-white/[0.08] flex items-center justify-center p-1 overflow-hidden shrink-0 group-hover:border-[#ff4040]/50 transition-colors">
               {!imgError && item.wikiaThumbnail ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -52,7 +61,7 @@ export function ItemCard({ triaged, onSelect }: ItemCardProps) {
                   className="w-full h-full object-contain filter drop-shadow group-hover:scale-105 transition-transform"
                 />
               ) : (
-                <span className="text-white/40 font-bold text-xs uppercase tracking-wider">
+                <span className="text-white/40 font-oswald font-bold text-xs uppercase tracking-wider">
                   {item.name.slice(0, 2)}
                 </span>
               )}
@@ -61,64 +70,64 @@ export function ItemCard({ triaged, onSelect }: ItemCardProps) {
             {/* Name & Type */}
             <div>
               <div className="flex items-center space-x-1.5">
-                <h3 className="font-semibold text-sm text-white tracking-tight group-hover:text-[#1bc866] transition-colors line-clamp-1">
+                <h3 className="font-oswald font-semibold text-sm text-white tracking-wide group-hover:text-[#ff4040] transition-colors line-clamp-1">
                   {item.name}
                 </h3>
                 {item.isPrime && (
-                  <span className="px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">
-                    Prime
+                  <span className="px-1.5 py-0.2 text-[9px] font-oswald font-bold uppercase tracking-wider rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                    PRIME
                   </span>
                 )}
                 {isMastered && (
-                  <span className="px-2 py-0.5 text-[9px] font-bold rounded-full bg-[#1bc866]/15 text-[#1bc866] border border-[#1bc866]/30">
+                  <span className="px-1.5 py-0.2 text-[9px] font-oswald font-bold rounded bg-[#00fa9a]/15 text-[#00fa9a] border border-[#00fa9a]/30">
                     ✓
                   </span>
                 )}
               </div>
-              <p className="text-[11px] text-white/50">
+              <p className="text-[11px] text-white/50 font-mono">
                 {item.type || item.category} {item.masteryReq > 0 ? `• MR ${item.masteryReq}` : ''}
               </p>
             </div>
           </div>
 
-          {/* Floating Tier Pill */}
+          {/* TBHX Skewed Tier Badge */}
           <span
-            className={`px-2.5 py-0.5 text-[10px] font-medium tracking-wide rounded-full border whitespace-nowrap ${badgeClass}`}
+            className={`tbhx-badge border whitespace-nowrap ${badgeClass}`}
           >
-            {tierLabel}
+            <span>{tierLabel}</span>
           </span>
         </div>
 
-        {/* Natural Language Human Directive */}
-        <div className="mt-2.5 py-2 px-3 rounded-2xl bg-white/[0.03] border border-white/[0.06] text-[11px] text-white/80 leading-relaxed font-normal">
+        {/* Down-to-earth Action Directive */}
+        <div className="mt-2 py-2 px-2.5 rounded bg-black/30 border border-white/[0.06] text-[11px] text-white/75 leading-relaxed font-normal">
           {actionDirective}
         </div>
       </div>
 
       {/* Bottom Progress Bar & Parts */}
-      <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px]">
-        {/* Component Dots / Progress */}
-        <div className="flex items-center space-x-2.5">
-          <div className="w-18 h-1.5 rounded-full bg-white/[0.08] overflow-hidden">
+      <div className="mt-3.5 pt-2.5 border-t border-white/[0.06] flex items-center justify-between text-[11px]">
+        {/* Component Progress */}
+        <div className="flex items-center space-x-2">
+          <div className="w-16 h-1 rounded bg-white/[0.08] overflow-hidden">
             <div
-              className={`h-full rounded-full transition-all duration-500 ${
+              className={`h-full rounded transition-all duration-300 ${
                 completionPercent === 100
-                  ? 'bg-[#1bc866]'
+                  ? 'bg-[#ff4040]'
                   : completionPercent > 50
-                  ? 'bg-sky-400'
+                  ? 'bg-[#00fa9a]'
                   : 'bg-white/40'
               }`}
               style={{ width: `${completionPercent}%` }}
             />
           </div>
-          <span className="text-[10px] text-white/50 tabular-nums font-medium">
+          <span className="text-[10px] font-mono text-white/50 tabular-nums">
             {triaged.satisfiedComponents}/{triaged.totalComponents} parts ({completionPercent}%)
           </span>
         </div>
 
         {/* Action hint */}
-        <span className="text-[10px] text-[#1bc866] group-hover:text-[#25e277] font-medium flex items-center space-x-1">
-          <span>View recipe</span>
+        <span className="text-[10px] font-oswald tracking-wider text-[#ff4040] group-hover:text-[#ff6666] font-medium flex items-center space-x-1">
+          <span>BLUEPRINT</span>
           <span className="text-xs leading-none">→</span>
         </span>
       </div>

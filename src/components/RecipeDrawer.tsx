@@ -94,27 +94,27 @@ export function RecipeDrawer({ triaged, onClose }: RecipeDrawerProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/65 backdrop-blur-sm"
+          className="fixed inset-0 bg-black/75 backdrop-blur-sm"
           aria-hidden="true"
         />
 
-        {/* Drawer Sheet */}
+        {/* Tactical Drawer Sheet */}
         <motion.div
           initial={{ x: '100%' }}
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
-          transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-          className="relative w-full max-w-lg h-full bg-[#0c0e14] border-l border-white/[0.08] shadow-2xl flex flex-col z-10 overflow-hidden"
+          transition={{ type: 'spring', damping: 32, stiffness: 320 }}
+          className="relative w-full max-w-lg h-full bg-[#08090c] border-l border-white/[0.09] shadow-2xl flex flex-col z-10 overflow-hidden"
         >
-          {/* Top Bar */}
-          <div className="px-6 py-4.5 border-b border-white/[0.08] flex items-center justify-between bg-white/[0.02]">
+          {/* Top Tactical Bar */}
+          <div className="px-6 py-4 border-b border-white/[0.09] flex items-center justify-between bg-[#0e1017]">
             <div className="flex items-center space-x-2.5">
-              <span className="px-2.5 py-0.5 text-[10px] uppercase tracking-wider text-white/60 font-semibold bg-white/[0.04] rounded-full border border-white/[0.08]">
-                {item.category} Recipe
+              <span className="tbhx-badge bg-[#ff4040]/15 text-[#ff4040] border border-[#ff4040]/30">
+                <span>{item.category} BLUEPRINT</span>
               </span>
               {item.isPrime && (
-                <span className="px-2 py-0.5 text-[9px] font-bold uppercase rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">
-                  Prime
+                <span className="px-2 py-0.5 text-[9px] font-oswald font-bold uppercase rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                  PRIME
                 </span>
               )}
             </div>
@@ -122,7 +122,7 @@ export function RecipeDrawer({ triaged, onClose }: RecipeDrawerProps) {
             <button
               onClick={onClose}
               aria-label="Close recipe details"
-              className="w-8 h-8 rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] flex items-center justify-center text-white/60 hover:text-white transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1bc866]/60 focus-visible:outline-none"
+              className="w-8 h-8 rounded bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.09] flex items-center justify-center text-white/60 hover:text-white transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#ff4040] focus-visible:outline-none"
             >
               ✕
             </button>
@@ -130,9 +130,9 @@ export function RecipeDrawer({ triaged, onClose }: RecipeDrawerProps) {
 
           {/* Scrollable Content */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
-            {/* Header section with Fraunces Editorial Title */}
-            <div className="flex items-center space-x-4.5">
-              <div className="w-18 h-18 rounded-2xl bg-white/[0.04] border border-white/[0.08] p-2 flex items-center justify-center overflow-hidden shrink-0">
+            {/* Header section with TBHX Oswald Title */}
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-16 rounded bg-black/50 border border-white/[0.09] p-2 flex items-center justify-center overflow-hidden shrink-0">
                 {item.wikiaThumbnail ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -141,17 +141,17 @@ export function RecipeDrawer({ triaged, onClose }: RecipeDrawerProps) {
                     className="w-full h-full object-contain filter drop-shadow"
                   />
                 ) : (
-                  <span className="text-white/40 font-bold text-sm uppercase">
+                  <span className="text-white/40 font-oswald font-bold text-sm uppercase">
                     {item.name.slice(0, 2)}
                   </span>
                 )}
               </div>
 
               <div>
-                <h2 id="recipe-drawer-title" className="font-serif text-2xl font-normal text-white tracking-tight sm:text-3xl leading-tight">
+                <h2 id="recipe-drawer-title" className="font-oswald text-2xl font-bold text-white tracking-wide uppercase sm:text-3xl leading-tight">
                   {item.name}
                 </h2>
-                <div className="flex items-center space-x-2 text-xs text-white/50 mt-1">
+                <div className="flex items-center space-x-2 text-xs font-mono text-white/50 mt-1">
                   <span>{item.type}</span>
                   <span>•</span>
                   <span>MR {item.masteryReq}</span>
@@ -166,13 +166,13 @@ export function RecipeDrawer({ triaged, onClose }: RecipeDrawerProps) {
             </div>
 
             {/* Tactical Action Directive Banner */}
-            <div className="p-4.5 rounded-3xl bg-white/[0.03] border border-white/[0.08] space-y-2">
+            <div className="p-4 rounded bg-[#0e1017] border border-white/[0.09] space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-white/90">
-                  Actionable Strategy
+                <span className="text-xs font-oswald tracking-wider uppercase text-white/90">
+                  CRAFTING DIRECTIVE
                 </span>
-                <span className="px-2.5 py-0.5 text-[10px] font-medium rounded-full bg-white/[0.06] border border-white/[0.08] text-white/80">
-                  {tierLabel}
+                <span className="tbhx-badge bg-white/[0.06] border border-white/[0.1] text-white/80">
+                  <span>{tierLabel}</span>
                 </span>
               </div>
               <p className="text-xs text-white/75 leading-relaxed">
@@ -183,34 +183,34 @@ export function RecipeDrawer({ triaged, onClose }: RecipeDrawerProps) {
             {/* Component Breakdown Checklist */}
             <div className="space-y-3.5">
               <div className="flex items-center justify-between">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-white/50">
-                  Components Required ({triaged.satisfiedComponents}/{triaged.totalComponents})
+                <h3 className="font-oswald text-xs font-semibold uppercase tracking-wider text-white/50">
+                  COMPONENTS REQUIRED ({triaged.satisfiedComponents}/{triaged.totalComponents})
                 </h3>
-                <span className="text-xs tabular-nums text-[#1bc866] font-semibold">
-                  {completionPercent}% Ready
+                <span className="font-mono text-xs tabular-nums text-[#00fa9a] font-semibold">
+                  {completionPercent}% READY
                 </span>
               </div>
 
-              <div className="space-y-2.5">
+              <div className="space-y-2">
                 {componentsStatus.map((comp) => {
                   const market = comp.marketSlug ? marketPrices[comp.marketSlug] : undefined;
 
                   return (
                     <div
                       key={comp.uniqueName}
-                      className={`p-3.5 rounded-2xl border transition-all ${
+                      className={`p-3.5 rounded border transition-all ${
                         comp.isSatisfied
-                          ? 'bg-[#1bc866]/[0.05] border-[#1bc866]/25'
-                          : 'bg-white/[0.02] border-white/[0.07]'
+                          ? 'bg-[#00fa9a]/[0.05] border-[#00fa9a]/25'
+                          : 'bg-[#0e1017] border-white/[0.07]'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                          {/* Framna Electric Green Checkbox */}
+                          {/* Tactical Checkbox */}
                           <div
-                            className={`w-5.5 h-5.5 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                            className={`w-5 h-5 rounded flex items-center justify-center text-xs font-bold transition-all ${
                               comp.isSatisfied
-                                ? 'bg-[#1bc866] text-[#041208] shadow-[0_0_10px_rgba(27,200,102,0.5)]'
+                                ? 'bg-[#00fa9a] text-black font-bold'
                                 : 'border border-white/20 text-transparent'
                             }`}
                           >
@@ -226,7 +226,7 @@ export function RecipeDrawer({ triaged, onClose }: RecipeDrawerProps) {
                               {comp.name}
                             </span>
                             {comp.isBlueprint && (
-                              <span className="ml-2 text-[10px] text-white/40 font-normal">
+                              <span className="ml-2 text-[10px] font-mono text-white/40">
                                 (Blueprint)
                               </span>
                             )}
@@ -234,11 +234,11 @@ export function RecipeDrawer({ triaged, onClose }: RecipeDrawerProps) {
                         </div>
 
                         {/* Count */}
-                        <div className="text-xs tabular-nums font-medium">
+                        <div className="text-xs font-mono tabular-nums">
                           <span
                             className={
                               comp.isSatisfied
-                                ? 'text-[#1bc866] font-semibold'
+                                ? 'text-[#00fa9a] font-semibold'
                                 : 'text-white/60'
                             }
                           >
@@ -250,22 +250,22 @@ export function RecipeDrawer({ triaged, onClose }: RecipeDrawerProps) {
 
                       {/* Warframe Market Plat Price Action for Missing Tradeable Parts */}
                       {!comp.isSatisfied && comp.marketSlug && (
-                        <div className="mt-3 pt-2.5 border-t border-white/[0.05] flex items-center justify-between">
-                          <span className="text-[11px] text-amber-400/90 font-medium">
+                        <div className="mt-3 pt-2.5 border-t border-white/[0.06] flex items-center justify-between">
+                          <span className="text-[11px] font-mono text-amber-400/90 font-medium">
                             Missing component
                           </span>
 
                           {market ? (
                             market.loading ? (
-                              <span className="text-[11px] text-white/50 animate-pulse">
+                              <span className="text-[11px] font-mono text-white/50 animate-pulse">
                                 Fetching market price...
                               </span>
                             ) : market.lowestIngameSellPrice !== null ? (
                               <div className="flex items-center space-x-2">
-                                <span className="h-7 px-2.5 rounded-full bg-[#1bc866]/15 border border-[#1bc866]/35 text-[#1bc866] text-xs font-semibold tabular-nums flex items-center">
+                                <span className="h-6 px-2 rounded bg-[#00fa9a]/15 border border-[#00fa9a]/35 text-[#00fa9a] font-mono text-xs font-semibold tabular-nums flex items-center">
                                   {market.lowestIngameSellPrice} Plat
                                 </span>
-                                <span className="text-[10px] text-white/40">
+                                <span className="text-[10px] font-mono text-white/40">
                                   ({market.orderCount} sellers)
                                 </span>
                               </div>
@@ -274,21 +274,19 @@ export function RecipeDrawer({ triaged, onClose }: RecipeDrawerProps) {
                                 href={market.marketWebUrl || `https://warframe.market/items/${comp.marketSlug}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="h-7 px-3 rounded-full bg-white/[0.05] hover:bg-white/[0.09] border border-white/[0.08] text-[11px] text-white/80 hover:text-white font-medium flex items-center space-x-1 transition-colors"
+                                className="h-7 px-3 rounded bg-white/[0.05] hover:bg-white/[0.09] border border-white/[0.09] text-[11px] font-oswald tracking-wider text-white/80 hover:text-white flex items-center space-x-1 transition-colors"
                               >
-                                <span>Warframe Market</span>
+                                <span>WARFRAME MARKET</span>
                                 <span>↗</span>
                               </a>
                             )
                           ) : (
-                            <motion.button
-                              whileHover={{ scale: 1.04 }}
-                              whileTap={{ scale: 0.96 }}
+                            <button
                               onClick={() => comp.marketSlug && fetchMarketPrice(comp.marketSlug)}
-                              className="h-7 px-3 rounded-full bg-white/[0.04] hover:bg-[#1bc866]/15 hover:border-[#1bc866]/35 text-[#1bc866] border border-white/[0.08] text-[11px] font-medium transition-all cursor-pointer"
+                              className="h-7 px-3 rounded bg-[#0e1017] hover:bg-[#ff4040]/15 hover:border-[#ff4040]/40 text-[#ff4040] border border-white/[0.09] font-oswald text-[11px] tracking-wider transition-all cursor-pointer"
                             >
-                              Check Market Plat Price
-                            </motion.button>
+                              CHECK PLAT PRICE
+                            </button>
                           )}
                         </div>
                       )}
@@ -305,9 +303,9 @@ export function RecipeDrawer({ triaged, onClose }: RecipeDrawerProps) {
                   href={item.wikiaUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full h-11 px-4 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] flex items-center justify-center space-x-2 text-xs font-medium text-white/80 hover:text-white transition-colors"
+                  className="w-full h-10 px-4 rounded bg-[#0e1017] hover:bg-[#151822] border border-white/[0.09] flex items-center justify-center space-x-2 text-xs font-oswald tracking-wider text-white/80 hover:text-white transition-colors"
                 >
-                  <span>Open Warframe Wiki Article</span>
+                  <span>OPEN WARFRAME WIKI ARTICLE</span>
                   <span className="text-xs">↗</span>
                 </a>
               </div>

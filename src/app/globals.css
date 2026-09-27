@@ -1,175 +1,147 @@
 @import "tailwindcss";
 
 :root {
-  --background: #08090c;
-  --foreground: #f4f5f8;
-  --foreground-muted: #8e95a5;
+  --background: #050608;
+  --foreground: #ffffff;
+  --foreground-muted: #9ba1b0;
 
-  /* Framna Design System Tokens */
-  --framna-green: #1bc866;
-  --framna-green-glow: rgba(27, 200, 102, 0.3);
-  --framna-canvas: #08090c;
-  --framna-surface: #12141a;
-  --framna-surface-elevated: #181b24;
-  --framna-border: rgba(255, 255, 255, 0.08);
-  --framna-border-hover: rgba(255, 255, 255, 0.16);
-  --framna-pill-height: 40px;
+  /* To Be Hero X (TBHX) Design System Tokens */
+  --tbhx-canvas: #050608;
+  --tbhx-surface: #0e1017;
+  --tbhx-surface-elevated: #151822;
+  --tbhx-border: rgba(255, 255, 255, 0.09);
+  --tbhx-border-hover: rgba(255, 64, 64, 0.4);
+  --tbhx-crimson: #ff4040;
+  --tbhx-crimson-dark: #ed2215;
+  --tbhx-crimson-glow: rgba(255, 64, 64, 0.25);
+
+  /* TBHX Hero Tier Palette */
+  --tier-0: #ff4040; /* Ready to Build (Crimson) */
+  --tier-1: #00fa9a; /* Market/Dojo Blueprint (Lucky Cyan) */
+  --tier-2: #fcc800; /* 1 Part Needed (Ghostblade Gold) */
+  --tier-3: #ff9933; /* Farming in Progress (Johnny Orange) */
+  --tier-4: #a855f7; /* Prime Vaulted (Dragon Violet) */
+  --tier-5: #008db7; /* Syndicate / Baro (Soul Blue) */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-framna-green: #1bc866;
-  --color-framna-canvas: #08090c;
-  --color-framna-surface: #12141a;
-  --color-framna-elevated: #181b24;
-  --color-framna-border: rgba(255, 255, 255, 0.08);
+  --color-tbhx-canvas: #050608;
+  --color-tbhx-surface: #0e1017;
+  --color-tbhx-elevated: #151822;
+  --color-tbhx-border: rgba(255, 255, 255, 0.09);
+  --color-tbhx-crimson: #ff4040;
+  --color-tbhx-crimson-dark: #ed2215;
 
   --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
-  --font-serif: var(--font-fraunces), "Fraunces", Georgia, serif;
+  --font-oswald: var(--font-oswald), "Oswald", sans-serif;
 }
 
 body {
-  background-color: var(--framna-canvas);
+  background-color: var(--tbhx-canvas);
   color: var(--foreground);
   font-family: var(--font-sans);
   min-height: 100vh;
   overflow-x: hidden;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
   background-image: 
-    radial-gradient(ellipse 85% 45% at 50% -15%, rgba(27, 200, 102, 0.06), transparent 60%),
-    radial-gradient(ellipse 60% 40% at 85% 15%, rgba(56, 189, 248, 0.03), transparent 50%);
+    radial-gradient(ellipse 70% 35% at 50% -10%, rgba(255, 64, 64, 0.08), transparent 60%),
+    radial-gradient(ellipse 50% 30% at 90% 20%, rgba(237, 34, 21, 0.04), transparent 50%);
   background-attachment: fixed;
 }
 
-/* Framna Typography Utility */
-.font-serif {
-  font-family: var(--font-fraunces), "Fraunces", Georgia, serif;
-  letter-spacing: -0.025em;
+/* TBHX Oswald Condensed Heading Utility */
+.font-oswald {
+  font-family: var(--font-oswald), "Oswald", sans-serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-/* Framna Editorial Card */
-.framna-card {
-  background-color: var(--framna-surface);
-  border-radius: 1.75rem; /* 28px */
-  box-shadow: inset 0 0 0 1px var(--framna-border);
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+/* TBHX Tournament Card */
+.tbhx-card {
+  background-color: var(--tbhx-surface);
+  border-radius: 0.875rem; /* 14px */
+  box-shadow: inset 0 0 0 1px var(--tbhx-border);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.framna-card:hover {
-  background-color: var(--framna-surface-elevated);
-  box-shadow: inset 0 0 0 1px var(--framna-border-hover), 0 16px 40px -8px rgba(0, 0, 0, 0.5);
+.tbhx-card:hover {
+  background-color: var(--tbhx-surface-elevated);
+  box-shadow: inset 0 0 0 1px var(--tbhx-border-hover), 0 12px 32px -4px rgba(0, 0, 0, 0.6);
   transform: translateY(-2px);
 }
 
-/* Framna 40px Pill System */
-.framna-pill {
-  min-height: 40px;
-  height: 40px;
-  padding-left: 1.125rem;
-  padding-right: 1.125rem;
-  border-radius: 9999px;
+/* TBHX Angular Skew Utilities */
+.tbhx-skew {
+  transform: skewX(-12deg);
+}
+
+.tbhx-unskew {
+  transform: skewX(12deg);
+}
+
+/* TBHX Skewed Badge */
+.tbhx-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 0 0 1px var(--framna-border);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 500;
-  font-size: 0.8125rem; /* 13px */
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0.2rem 0.65rem;
+  border-radius: 0.25rem;
+  font-family: var(--font-oswald), "Oswald", sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transform: skewX(-10deg);
 }
 
-.framna-pill:hover {
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 0 0 1px var(--framna-border-hover);
+.tbhx-badge > * {
+  transform: skewX(10deg);
+}
+
+/* TBHX Crimson Button */
+.tbhx-btn-crimson {
+  background: var(--tbhx-crimson);
   color: #ffffff;
-}
-
-.framna-pill-active {
-  background: #ffffff;
-  color: #08090c;
-  box-shadow: 0 4px 16px -2px rgba(255, 255, 255, 0.2);
+  font-family: var(--font-oswald), "Oswald", sans-serif;
   font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px -2px var(--tbhx-crimson-glow);
+  transition: all 0.2s ease;
 }
 
-.framna-pill-green {
-  background: var(--framna-green);
-  color: #041208;
-  font-weight: 600;
-  box-shadow: 0 4px 20px -2px var(--framna-green-glow);
+.tbhx-btn-crimson:hover {
+  background: #ff5555;
+  box-shadow: 0 6px 22px -2px rgba(255, 64, 64, 0.45);
 }
 
-.framna-pill-green:hover {
-  background: #20dc71;
-  color: #000000;
-  box-shadow: 0 6px 24px -2px rgba(27, 200, 102, 0.45);
+/* Tactical Hairline Inset */
+.tbhx-border {
+  box-shadow: inset 0 0 0 1px var(--tbhx-border);
 }
 
-/* Framna Glow Effect */
-.framna-glow {
-  box-shadow: 0 0 24px -2px var(--framna-green-glow);
+.tbhx-border-crimson {
+  box-shadow: inset 0 0 0 1px rgba(255, 64, 64, 0.4);
 }
 
-/* Inset Hairline Border Utility */
-.inset-hairline {
-  box-shadow: inset 0 0 0 1px var(--framna-border);
-}
-
-.inset-hairline-green {
-  box-shadow: inset 0 0 0 1px rgba(27, 200, 102, 0.35);
-}
-
-/* Backward compatibility / Glass bridge */
-.tahoe-glass {
-  background: rgba(18, 20, 26, 0.85);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  box-shadow: inset 0 -1px 0 0 var(--framna-border);
-}
-
-.tahoe-glass-card {
-  background-color: var(--framna-surface);
-  box-shadow: inset 0 0 0 1px var(--framna-border);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.tahoe-glass-card:hover {
-  background-color: var(--framna-surface-elevated);
-  box-shadow: inset 0 0 0 1px var(--framna-border-hover);
-}
-
-.tahoe-glass-pill {
-  box-shadow: inset 0 0 0 1px var(--framna-border);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.tahoe-glass-active {
-  box-shadow: inset 0 0 0 1px rgba(27, 200, 102, 0.4);
-  background: rgba(27, 200, 102, 0.12);
-  color: #1bc866;
-}
-
-/* Sleek scandi scrollbar */
+/* Custom TBHX Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #08090c;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 9999px;
+  background: #2a2e3d;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.22);
-}
-
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
+  background: var(--tbhx-crimson);
 }
