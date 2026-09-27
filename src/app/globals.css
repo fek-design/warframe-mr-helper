@@ -1,26 +1,175 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #08090c;
+  --foreground: #f4f5f8;
+  --foreground-muted: #8e95a5;
+
+  /* Framna Design System Tokens */
+  --framna-green: #1bc866;
+  --framna-green-glow: rgba(27, 200, 102, 0.3);
+  --framna-canvas: #08090c;
+  --framna-surface: #12141a;
+  --framna-surface-elevated: #181b24;
+  --framna-border: rgba(255, 255, 255, 0.08);
+  --framna-border-hover: rgba(255, 255, 255, 0.16);
+  --framna-pill-height: 40px;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-framna-green: #1bc866;
+  --color-framna-canvas: #08090c;
+  --color-framna-surface: #12141a;
+  --color-framna-elevated: #181b24;
+  --color-framna-border: rgba(255, 255, 255, 0.08);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+  --font-serif: var(--font-fraunces), "Fraunces", Georgia, serif;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--framna-canvas);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  letter-spacing: -0.015em;
+  background-image: 
+    radial-gradient(ellipse 85% 45% at 50% -15%, rgba(27, 200, 102, 0.06), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 15%, rgba(56, 189, 248, 0.03), transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Framna Typography Utility */
+.font-serif {
+  font-family: var(--font-fraunces), "Fraunces", Georgia, serif;
+  letter-spacing: -0.025em;
+}
+
+/* Framna Editorial Card */
+.framna-card {
+  background-color: var(--framna-surface);
+  border-radius: 1.75rem; /* 28px */
+  box-shadow: inset 0 0 0 1px var(--framna-border);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.framna-card:hover {
+  background-color: var(--framna-surface-elevated);
+  box-shadow: inset 0 0 0 1px var(--framna-border-hover), 0 16px 40px -8px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Framna 40px Pill System */
+.framna-pill {
+  min-height: 40px;
+  height: 40px;
+  padding-left: 1.125rem;
+  padding-right: 1.125rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px var(--framna-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  font-size: 0.8125rem; /* 13px */
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.framna-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px var(--framna-border-hover);
+  color: #ffffff;
+}
+
+.framna-pill-active {
+  background: #ffffff;
+  color: #08090c;
+  box-shadow: 0 4px 16px -2px rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+}
+
+.framna-pill-green {
+  background: var(--framna-green);
+  color: #041208;
+  font-weight: 600;
+  box-shadow: 0 4px 20px -2px var(--framna-green-glow);
+}
+
+.framna-pill-green:hover {
+  background: #20dc71;
+  color: #000000;
+  box-shadow: 0 6px 24px -2px rgba(27, 200, 102, 0.45);
+}
+
+/* Framna Glow Effect */
+.framna-glow {
+  box-shadow: 0 0 24px -2px var(--framna-green-glow);
+}
+
+/* Inset Hairline Border Utility */
+.inset-hairline {
+  box-shadow: inset 0 0 0 1px var(--framna-border);
+}
+
+.inset-hairline-green {
+  box-shadow: inset 0 0 0 1px rgba(27, 200, 102, 0.35);
+}
+
+/* Backward compatibility / Glass bridge */
+.tahoe-glass {
+  background: rgba(18, 20, 26, 0.85);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  box-shadow: inset 0 -1px 0 0 var(--framna-border);
+}
+
+.tahoe-glass-card {
+  background-color: var(--framna-surface);
+  box-shadow: inset 0 0 0 1px var(--framna-border);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tahoe-glass-card:hover {
+  background-color: var(--framna-surface-elevated);
+  box-shadow: inset 0 0 0 1px var(--framna-border-hover);
+}
+
+.tahoe-glass-pill {
+  box-shadow: inset 0 0 0 1px var(--framna-border);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tahoe-glass-active {
+  box-shadow: inset 0 0 0 1px rgba(27, 200, 102, 0.4);
+  background: rgba(27, 200, 102, 0.12);
+  color: #1bc866;
+}
+
+/* Sleek scandi scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
